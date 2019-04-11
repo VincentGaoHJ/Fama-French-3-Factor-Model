@@ -9,7 +9,6 @@
         按照市值和账面市值比分成二十五组，感受两个因子与收益率关系
 """
 
-import numpy as np
 import pandas as pd
 
 
@@ -42,7 +41,7 @@ class Portafolio(object):
 
 def prepare_Portafolio(num):
     """
-    截取每一个二十五个以csv文件储存的Portafolio
+    读取每一个二十五个以csv文件储存的Portafolio
     :param num: 所需要的数据的年份，如果传入的num为零，则使用所有年份的数据
     :return: 为每一个Portafolio创建一个类对象
     """

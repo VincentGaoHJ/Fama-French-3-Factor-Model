@@ -4,11 +4,9 @@
 @Author: Haojun Gao
 @Description: Fama-French 3-factor model
     构建连接三因子模型和CAPM模型的组合
-        构建市值和β值分类的二十五个股票组合
-        构建账面市值比和β值分类的二十五个股票组合
+        将25个没有beta信息的Portafolio添加上beta信息
 """
 
-import numpy as np
 import pandas as pd
 
 

@@ -4,11 +4,11 @@
 @Author: Haojun Gao
 @Description: Fama-French 3-factor model
     其次直观感受三因子模型与β值之间的关系，拒绝CAPM模型
-        按照市值与β值分成二十五组，感受市值和β值与收益率关系
-        按照账面市值比与β值分成二十五组，感受账面市值比和β值与收益率关系
+        感受市值和β值的关系
+        感受账面市值比和β值的关系
+        感受市值，账面市值比与β值的关系
 """
 
-import numpy as np
 import pandas as pd
 
 
@@ -41,6 +41,11 @@ class Portafolio(object):
 
 
 def prepare_Portafolio(num):
+    """
+    读取每一个二十五个以csv文件储存的Portafolio
+    :param num: 所需要的数据的年份，如果传入的num为零，则使用所有年份的数据
+    :return: 为每一个Portafolio创建一个类对象
+    """
     for i in range(25):
         a = int(i / 5)
         b = i % 5
@@ -70,6 +75,11 @@ def prepare_Portafolio(num):
 
 
 def Msmv_portafolio(Portafolio_dict):
+    """
+    根据市值大小分成五个 Portafolio，并且输出他们的信息
+    :param Portafolio_dict: 类对象字典
+    :return:
+    """
     print("\n根据市值大小输出\n")
     for i in range(5):
         value_rank_Msmv = value_Msmvosd = value_Msmvttl = value_Bktomk = value_Mretwd = value_Mretnd = value_Beta = 0
@@ -92,6 +102,11 @@ def Msmv_portafolio(Portafolio_dict):
 
 
 def Bktomk_portafolio(Portafolio_dict):
+    """
+    根据账面市值比大小分成五个 Portafolio，并且输出他们的信息
+    :param Portafolio_dict: 类对象字典
+    :return:
+    """
     print("\n根据账面市值比大小输出\n")
     for i in range(5):
         value_rank_Bktomk = value_Msmvosd = value_Msmvttl = value_Bktomk = value_Mretwd = value_Mretnd = value_Beta = 0
@@ -114,6 +129,11 @@ def Bktomk_portafolio(Portafolio_dict):
 
 
 def twentyfive_Beta_portafolio(Portafolio_dict):
+    """
+    根据账面市值比大小和市值分成25个 Portafolio，并且输出他们的 Beta
+    :param Portafolio_dict: 类对象字典
+    :return:
+    """
     print("\n根据账面市值比与市值大小输出Bata\n")
     for i in range(5):
         for j in range(5):
@@ -124,19 +144,20 @@ def twentyfive_Beta_portafolio(Portafolio_dict):
 
 
 def print_matrix(dictionary):
+    """
+    根据25个Portafolio输出相关的矩阵
+    :param dictionary: 类对象字典
+    :return:
+    """
     Msmv_portafolio(dictionary)
     Bktomk_portafolio(dictionary)
     twentyfive_Beta_portafolio(dictionary)
 
 
 # 创建25个类对象，并且用一个字典进行管理
-Portafolio_dict = {}
 Portafolio_dict = prepare_Portafolio(0)
+print_matrix(Portafolio_dict)
 
-# # # 为某一年创建25个类对象，并且用一个字典进行管理
-# Portafolio_dict = {}
-# Portafolio_dict = prepare_Portafolio(2006)
-
-if __name__ == '__main__':
-    # print_matrix(Portafolio_dict)
-    print_matrix(Portafolio_dict)
+# 为某一年创建25个类对象，并且用一个字典进行管理
+Portafolio_dict = prepare_Portafolio(2006)
+print_matrix(Portafolio_dict)
