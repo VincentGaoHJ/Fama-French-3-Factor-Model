@@ -11,69 +11,73 @@
 import numpy as np
 import pandas as pd
 
-def open_excel(path):
-    
-    excel_ori = pd.read_excel(io=path)
-    values = excel_ori.values
-    data_df = pd.DataFrame(values)
-    
-    return data_df
 
+def get_data_Msmv(Msmv_path):
+    data_df = pd.read_csv(Msmv_path)
 
-def get_data_Msmv():
-    
-    # 循环读取25个根据市值和账面市值比的股票组合
-    id = str(0)
-    xlsx_path = ".\\pf25_data\\pfdata_"+id+".csv"
-    data_df = pd.read_csv(xlsx_path)
-    print(data_df.shape)
-    data_Msmv = data_df
-    
     # 根据以上矩阵获取到备选的股票以及相应年份的数据条目
-    
-    data_year = data_Msmv[[1,8,9]]
-    
-    data_year.rename(columns={1: "Stkcd", 8: 'year', 9: 'month'}, inplace=True)
 
+    data_year = data_df[["Stkcd", "Msmvosd", 'Msmvttl', 'Mretwd', 'Mretnd', 'bemeA']]
 
-    print(data_year)    
-    
-    
+    data_year['Trdmnt_year'] = data_df['Trdmnt_year']
+    data_year['Trdmnt_mon'] = data_df['Trdmnt_mon'].map(lambda x: int(x[-2:]))
     data_year = data_year.drop_duplicates()
     data_year = data_year.reset_index(drop=True)
-    
+
+    data_year.rename(columns={'Stkcd': 'StkCd', 'Trdmnt_year': 'Date-year', 'Trdmnt_mon': 'Date-month'}, inplace=True)
+
     return data_year
 
-def get_data_beta(data_Msmv_year):
-    
-    # 计算每年每只股票的平均β值，并且根据每年的β值的20%-80%进行分类
-    
-    id = "1"
-    csv_path = ".\\beita\\SMONRETBETA_BFDT12__("+id+").csv"
-    data_beta = pd.read_csv(csv_path)
-    
-    data_beta[1] = pd.to_datetime(data_beta[1], format='%Y-%m-%d')
-    data_beta[3] = data_beta[1].dt.year
-    data_beta[4] = data_beta[1].dt.month
-    
-    for row in data_beta.iterrows():
-        temp = data_Msmv_year[data_Msmv_year[0].isin([row[1][0]])]
-        if not temp.empty:   
-            print(temp)
-    
-# =============================================================================
-#     print(data_Msmv_year)
-#     print(data_beta)
-# =============================================================================
+
+def get_data_beta(i):
+    id = str(i + 1)
+    csv_path = ".\\beta\\SMONRETBETA_BFDT12__(" + id + ").csv"
+    data_beta = pd.read_csv(csv_path, encoding='ANSI')
+
+    data_beta.rename(columns={'股票代码_StkCd': 'StkCd', '日期_Date': 'Date', '风险因子_流通市值加权_持有期收益_Beta_TMV_H': 'Beta'},
+                     inplace=True)
+
+    data_beta["Date"] = pd.to_datetime(data_beta["Date"], format='%Y-%m-%d')
+    data_beta["Date-year"] = data_beta["Date"].dt.year
+    data_beta["Date-month"] = data_beta["Date"].dt.month
+
+    data_beta.drop(['Date'], axis=1, inplace=True)
+
+    return data_beta
+
+
+def add_beta_to_Msmv(data_Msmv, data_beta):
+    Msmv_beta = pd.merge(
+        data_Msmv[["StkCd", "Date-year", "Date-month", "Msmvosd", 'Msmvttl', 'Mretwd', 'Mretnd', 'bemeA']],
+        data_beta[["StkCd", "Date-year", "Date-month", "Beta"]],
+        on=["StkCd", "Date-year", "Date-month"])
+
+    return Msmv_beta
+
+
+def get_full_data(data_Msmv):
+    full_data = None
+    data_Msmv.insert(0, 'beta', 0)
+    for i in range(6):
+        data_beta = get_data_beta(i)
+        Msmv_beta = add_beta_to_Msmv(data_Msmv, data_beta)
+        if full_data is None:
+            full_data = Msmv_beta
+        else:
+            full_data = pd.concat([full_data, Msmv_beta], axis=0, ignore_index=True)
+
+    return full_data
 
 
 if __name__ == '__main__':
 
-    data_Msmv_year = get_data_Msmv()
-    #print(data_Msmv_year)
-    
-    #get_data_beta(data_Msmv_year)
-    
-    
-    
-    
+    for i in range(25):
+
+        Msmv_path = ".\\pf25_data\\pfdata_" + str(i) + ".csv"
+        file_path = ".\\full_data\\pfdata_beta_" + str(i) + ".csv"
+
+        data_Msmv = get_data_Msmv(Msmv_path)
+        full_data = get_full_data(data_Msmv)
+        full_data.to_csv(file_path)
+
+        print("[main]成功保存第{}个Portafolio".format(str(i+1)))
