@@ -40,7 +40,12 @@ class Portafolio(object):
         self.Bktomk = Bktomk
 
 
-def prepare_Portafolio():
+def prepare_Portafolio(num):
+    """
+    截取每一个二十五个以csv文件储存的Portafolio
+    :param num: 所需要的数据的年份，如果传入的num为零，则使用所有年份的数据
+    :return: 为每一个Portafolio创建一个类对象
+    """
     for i in range(25):
         a = int(i / 5)
         b = i % 5
@@ -48,31 +53,8 @@ def prepare_Portafolio():
         path = ".\\pf25_data\\pfdata_" + str(i) + ".csv"
         data_df = pd.read_csv(path)
 
-        temp_idnum = str(i)
-        temp_num = data_df.shape[0]
-        temp_rank_Msmv = a
-        temp_rank_Bktomk = b
-        temp_Msmvosd = data_df["Msmvosd"].mean()
-        temp_Msmvttl = data_df["Msmvttl"].mean()
-        temp_Mretwd = data_df["Mretwd"].mean()
-        temp_Mretnd = data_df["Mretnd"].mean()
-        temp_Bktomk = data_df["bemeA"].mean()
-
-        Portafolio_dict[str(i)] = Portafolio(temp_idnum, temp_num, temp_rank_Msmv, temp_rank_Bktomk,
-                                             temp_Msmvosd, temp_Msmvttl, temp_Mretwd, temp_Mretnd, temp_Bktomk)
-
-    return Portafolio_dict
-
-
-def prepare_Portafolio_year(num):
-    for i in range(25):
-        a = int(i / 5)
-        b = i % 5
-
-        path = ".\\pf25_data\\pfdata_" + str(i) + ".csv"
-        data_df = pd.read_csv(path)
-
-        data_df = data_df.loc[data_df["Trdmnt_year"] == num]
+        if num != 0:
+            data_df = data_df.loc[data_df["Trdmnt_year"] == num]
 
         temp_idnum = str(i)
         temp_num = data_df.shape[0]
@@ -91,6 +73,11 @@ def prepare_Portafolio_year(num):
 
 
 def Msmv_portafolio(Portafolio_dict):
+    """
+    根据市值大小分成五个Portafolio，并且输出他们的信息
+    :param Portafolio_dict: 类对象字典
+    :return:
+    """
     print("\n根据市值大小输出\n")
     for i in range(5):
         value_rank_Msmv = value_Msmvosd = value_Msmvttl = value_Bktomk = value_Mretwd = value_Mretnd = 0
@@ -111,6 +98,11 @@ def Msmv_portafolio(Portafolio_dict):
 
 
 def Bktomk_portafolio(Portafolio_dict):
+    """
+    根据账面市值比大小分成五个 Portafolio，并且输出他们的信息
+    :param Portafolio_dict: 类对象字典
+    :return:
+    """
     print("\n根据账面市值比大小输出\n")
     for i in range(5):
         value_rank_Bktomk = value_Msmvosd = value_Msmvttl = value_Bktomk = value_Mretwd = value_Mretnd = 0
@@ -131,6 +123,11 @@ def Bktomk_portafolio(Portafolio_dict):
 
 
 def twentyfive_Mretwd_portafolio(Portafolio_dict):
+    """
+    根据账面市值比大小和市值分成25个 Portafolio，并且输出他们的Mretwd
+    :param Portafolio_dict: 类对象字典
+    :return:
+    """
     print("\n根据账面市值比与市值大小输出Mretwd\n")
     for i in range(5):
         for j in range(5):
@@ -141,6 +138,11 @@ def twentyfive_Mretwd_portafolio(Portafolio_dict):
 
 
 def twentyfive_Mretnd_portafolio(Portafolio_dict):
+    """
+    根据账面市值比大小和市值分成25个 Portafolio，并且输出他们的Mretnd
+    :param Portafolio_dict: 类对象字典
+    :return:
+    """
     print("\n根据账面市值比与市值大小输出Mretnd\n")
     for i in range(5):
         for j in range(5):
@@ -151,6 +153,11 @@ def twentyfive_Mretnd_portafolio(Portafolio_dict):
 
 
 def twentyfive_Bktomk_portafolio(Portafolio_dict):
+    """
+    根据账面市值比大小和市值分成25个Portafolio，并且输出他们的 Bktomk
+    :param Portafolio_dict: 类对象字典
+    :return:
+    """
     print("\n根据账面市值比与市值大小输出账面市值比Bktomk\n")
     for i in range(5):
         for j in range(5):
@@ -161,6 +168,11 @@ def twentyfive_Bktomk_portafolio(Portafolio_dict):
 
 
 def twentyfive_Msmvttl_portafolio(Portafolio_dict):
+    """
+    根据账面市值比大小和市值分成25个Portafolio，并且输出他们的 Msmvttl
+    :param Portafolio_dict: 类对象字典
+    :return:
+    """
     print("\n根据账面市值比与市值大小输出市值Msmvttl\n")
     for i in range(5):
         for j in range(5):
@@ -171,6 +183,11 @@ def twentyfive_Msmvttl_portafolio(Portafolio_dict):
 
 
 def twentyfive_Msmvosd_portafolio(Portafolio_dict):
+    """
+    根据账面市值比大小和市值分成25个Portafolio，并且输出他们的 Msmvosd
+    :param Portafolio_dict: 类对象字典
+    :return:
+    """
     print("\n根据账面市值比与市值大小输出市值Msmvosd\n")
     for i in range(5):
         for j in range(5):
@@ -181,6 +198,11 @@ def twentyfive_Msmvosd_portafolio(Portafolio_dict):
 
 
 def print_matrix(dictionary):
+    """
+    根据25个Portafolio输出相关的矩阵
+    :param dictionary: 类对象字典
+    :return:
+    """
     Msmv_portafolio(dictionary)
     Bktomk_portafolio(dictionary)
     twentyfive_Mretwd_portafolio(dictionary)
@@ -192,14 +214,9 @@ def print_matrix(dictionary):
 
 # 创建25个类对象，并且用一个字典进行管理
 Portafolio_dict = {}
-Portafolio_dict = prepare_Portafolio()
 
-print("aaaaaaaa")
+Portafolio_dict = prepare_Portafolio(0)
+print_matrix(Portafolio_dict)
 
-# 为某一年创建25个类对象，并且用一个字典进行管理
-Portafolio_dict_2006 = {}
-Portafolio_dict_2006 = prepare_Portafolio_year(2006)
-
-if __name__ == '__main__':
-    print_matrix(Portafolio_dict)
-    print_matrix(Portafolio_dict_2006)
+Portafolio_dict = prepare_Portafolio(2006)
+print_matrix(Portafolio_dict)
