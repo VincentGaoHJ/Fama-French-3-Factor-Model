@@ -1,9 +1,5 @@
----
-title: 'Fama-French-3-Factor-Model'
-disqus: hackmd
----
 
-Project Title
+# Fama French 3-Factor Model
 ===
 ![downloads](https://img.shields.io/github/downloads/atom/atom/total.svg)
 ![build](https://img.shields.io/appveyor/ci/:user/:repo.svg)
