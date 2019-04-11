@@ -40,7 +40,7 @@ class Portafolio(object):
         self.Beta = Beta
 
 
-def prepare_Portafolio():
+def prepare_Portafolio(num):
     for i in range(25):
         a = int(i / 5)
         b = i % 5
@@ -48,33 +48,8 @@ def prepare_Portafolio():
         path = ".\\full_data\\pfdata_beta_" + str(i) + ".csv"
         data_df = pd.read_csv(path)
 
-        temp_idnum = str(i)
-        temp_num = data_df.shape[0]
-        temp_rank_Msmv = a
-        temp_rank_Bktomk = b
-        temp_Msmvosd = data_df["Msmvosd"].mean()
-        temp_Msmvttl = data_df["Msmvttl"].mean()
-        temp_Mretwd = data_df["Mretwd"].mean()
-        temp_Mretnd = data_df["Mretnd"].mean()
-        temp_Bktomk = data_df["bemeA"].mean()
-        temp_Beta = data_df["Beta"].mean()
-
-        Portafolio_dict[str(i)] = Portafolio(temp_idnum, temp_num, temp_rank_Msmv, temp_rank_Bktomk,
-                                             temp_Msmvosd, temp_Msmvttl, temp_Mretwd, temp_Mretnd, temp_Bktomk,
-                                             temp_Beta)
-
-    return Portafolio_dict
-
-
-def prepare_Portafolio_year(num):
-    for i in range(25):
-        a = int(i / 5)
-        b = i % 5
-
-        path = ".\\full_data\\pfdata_beta_" + str(i) + ".csv"
-        data_df = pd.read_csv(path)
-
-        data_df = data_df.loc[data_df["Date-year"] == num]
+        if num != 0:
+            data_df = data_df.loc[data_df["Trdmnt_year"] == num]
 
         temp_idnum = str(i)
         temp_num = data_df.shape[0]
@@ -156,11 +131,11 @@ def print_matrix(dictionary):
 
 # 创建25个类对象，并且用一个字典进行管理
 Portafolio_dict = {}
-Portafolio_dict = prepare_Portafolio()
+Portafolio_dict = prepare_Portafolio(0)
 
 # # # 为某一年创建25个类对象，并且用一个字典进行管理
 # Portafolio_dict = {}
-# Portafolio_dict = prepare_Portafolio_year(2006)
+# Portafolio_dict = prepare_Portafolio(2006)
 
 if __name__ == '__main__':
     # print_matrix(Portafolio_dict)
