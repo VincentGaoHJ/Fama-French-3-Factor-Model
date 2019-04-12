@@ -54,7 +54,7 @@ def prepare_Portafolio(num):
         data_df = pd.read_csv(path)
 
         if num != 0:
-            data_df = data_df.loc[data_df["Trdmnt_year"] == num]
+            data_df = data_df.loc[data_df["Date-year"] == num]
 
         temp_idnum = str(i)
         temp_num = data_df.shape[0]
@@ -153,6 +153,8 @@ def print_matrix(dictionary):
     Bktomk_portafolio(dictionary)
     twentyfive_Beta_portafolio(dictionary)
 
+# 创建25个类对象，并且用一个字典进行管理
+Portafolio_dict = {}
 
 # 创建25个类对象，并且用一个字典进行管理
 Portafolio_dict = prepare_Portafolio(0)

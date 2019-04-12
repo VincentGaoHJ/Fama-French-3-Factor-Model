@@ -217,5 +217,5 @@ Portafolio_dict = {}
 Portafolio_dict = prepare_Portafolio(0)
 print_matrix(Portafolio_dict)
 
-Portafolio_dict = prepare_Portafolio(2006)
-print_matrix(Portafolio_dict)
+# Portafolio_dict = prepare_Portafolio(2018)
+# print_matrix(Portafolio_dict)
