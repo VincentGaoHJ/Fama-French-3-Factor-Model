@@ -78,15 +78,15 @@
 
 ## Data Explanation
 
-> Read more about Gherkin here: idnum [组合的代号 00-44(str)]
-> num [组合所包含的数据的条目数量(int)]
-> rank_Msmv [组合所代表的市值属性大小 0最小，4最大(int)]
-> rank_Bktomk [组合所代表的账面市值比属性大小 0最小，4最大(int)]
-> Mretwd [平均考虑现金红利再投资的月个股回报率(float)]
-> Mretnd [平均不考虑现金红利再投资的月个股回报率(float)]
-> Msmvosd [平均月个股流通市值(float)] - 个股的流通股数与月收盘价的乘积
-> Msmvttl [平均月个股总市值(float)] - 个股的发行总股数与月收盘价的乘积
-> Bktomk [平均账面市值比(float)]
+* ***idnum*** [组合的代号 00-44(str)]
+* ***num*** [组合所包含的数据的条目数量(int)]
+* ***rankMsmv*** [组合所代表的市值属性大小 0最小，4最大(int)]
+* ***rankBktomk*** [组合所代表的账面市值比属性大小 0最小，4最大(int)]
+* ***Mretwd*** [平均考虑现金红利再投资的月个股回报率(float)]
+* ***Mretnd*** [平均不考虑现金红利再投资的月个股回报率(float)]
+* ***Msmvosd*** [平均月个股流通市值(float)] - 个股的流通股数与月收盘价的乘积
+* ***Msmvttl*** [平均月个股总市值(float)] - 个股的发行总股数与月收盘价的乘积
+* ***Bktomk*** [平均账面市值比(float)]
 
 
 ###### tags: `Readme` `Documentation`
