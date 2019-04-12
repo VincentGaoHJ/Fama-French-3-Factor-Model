@@ -1,8 +1,6 @@
 
 # Fama French 3-Factor Model
 
-![downloads](https://img.shields.io/github/downloads/atom/atom/total.svg)
-
 ## Description
 
 * This is a repo used to verify the validity of the Fama three-factor model.
@@ -59,6 +57,8 @@
 ## Output Format
 
 * **\\full_data\\pfdata_beta_0.csv**
+
+
 ```
 	StkCd	Date-year	Date-month	Msmvosd	Msmvttl	Mretwd	Mretnd	bemeA	Beta
 0	4	2005	7	166211.4	335066.97	-0.109375	-0.109375	0.506898	1.5095
